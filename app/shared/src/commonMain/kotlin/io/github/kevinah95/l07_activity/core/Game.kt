@@ -124,8 +124,27 @@ class Game : GameSession {
      * 6. Spawnear el proyectil en la posición del jugador.
      * 7. Retornar true.
      */
+
     fun castSpell(): Boolean {
-        // TODO: Completar la lógica de disparo
-        return false
+        if (spell.casts <= 0) {
+            return false
+        }
+
+        spell.casts -= 1
+
+        val projectile = createSpell()
+        val dir = vectorFromAngle(spell.targetAngle)
+
+        projectile.vx = dir.x * spell.basePower
+        projectile.vy = dir.y * spell.basePower
+
+        spawn(
+            projectile,
+            player.x + player.spriteWidth / 2.0,
+            player.y + player.spriteHeight / 2.0
+        )
+
+        return true
     }
+
 }
